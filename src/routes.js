@@ -1,6 +1,6 @@
 import PaginaPadrao from "components/PaginaPadrao";
 import Home from "pages/Home";
-import Categoria from "pages/Home/Categoria";
+import Categoria from "pages/Categoria";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 export default function Router() {
