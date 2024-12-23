@@ -19,7 +19,9 @@
     justify-content: center;
     top: calc(100% - 150px);
     width: 90%;
-    > div {
+    > button {
+      border: none;
+      background: none;
       align-items: center;
       cursor: pointer;
       display: flex;
