@@ -8,14 +8,17 @@ export default function Carrinho() {
   const dispatch = useDispatch();
 
   const { carrinho, total } = useSelector((state) => {
+    const regexp = new RegExp(state.busca, "i");
     let total = 0;
     const carrinho = state.carrinho.reduce((itens, itemCarrinho) => {
       const item = state.itens.find((item) => item.id === itemCarrinho.id);
-      total += (item.preco * itemCarrinho.quantidade)
-      itens.push({
-        ...item,
-        quantidade: itemCarrinho.quantidade,
-      });
+      total += item.preco * itemCarrinho.quantidade;
+      if (item.titulo.match(regexp)) {
+        itens.push({
+          ...item,
+          quantidade: itemCarrinho.quantidade,
+        });
+      }
       return itens;
     }, []);
     return { carrinho, total };
@@ -28,13 +31,13 @@ export default function Carrinho() {
         descricao="Confira produtos que você adicionou ao carrinho"
       />
       <div className={styles.carrinho}>
-        {carrinho.map(item => <Item key={item.id} {...item} carrinho />)}
+        {carrinho.map((item) => (
+          <Item key={item.id} {...item} carrinho />
+        ))}
         <div className={styles.total}>
-          <strong>
-            Resumo da compra
-          </strong>
+          <strong>Resumo da compra</strong>
           <span>
-            Subtotal: <strong>R$ {(total).toFixed(2)}</strong>
+            Subtotal: <strong>R$ {total.toFixed(2)}</strong>
           </span>
         </div>
         <button
