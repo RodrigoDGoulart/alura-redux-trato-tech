@@ -4,16 +4,18 @@ import { useSelector } from "react-redux";
 import Item from "components/Item";
 
 export default function Carrinho() {
-  const carrinho = useSelector((state) => {
-    const carrinhoReduce = state.carrinho.reduce((itens, itemCarrinho) => {
+  const { carrinho, total } = useSelector((state) => {
+    let total = 0;
+    const carrinho = state.carrinho.reduce((itens, itemCarrinho) => {
       const item = state.itens.find((item) => item.id === itemCarrinho.id);
+      total += (item.preco * itemCarrinho.quantidade)
       itens.push({
         ...item,
         quantidade: itemCarrinho.quantidade,
       });
       return itens;
     }, []);
-    return carrinhoReduce;
+    return { carrinho, total };
   });
 
   return (
@@ -29,7 +31,7 @@ export default function Carrinho() {
             Resumo da compra
           </strong>
           <span>
-            Subtotal: <strong>R$ {0.0.toFixed(2)}</strong>
+            Subtotal: <strong>R$ {(total).toFixed(2)}</strong>
           </span>
         </div>
       </div>
