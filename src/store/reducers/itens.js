@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { estadoInicial } from '../../constants/itensInitialState'
+import { v4 as uuid } from 'uuid'
 
 const itensSlice = createSlice({
   name: "itens",
@@ -10,10 +11,21 @@ const itensSlice = createSlice({
         if (item.id === payload) item.favorito = !item.favorito;
         return item;
       })
+    },
+    cadastrarItem: (state, {payload}) => {
+      state.push({
+        titulo: payload.nome,
+        categoria: payload.categoria,
+        descricao: payload.descricao,
+        favorito: false,
+        foto: payload.imagem,
+        id: uuid(),
+        preco: Number(payload.preco)
+      })
     }
   }
 });
 
-export const { mudarFavorito } = itensSlice.actions;
+export const { mudarFavorito, cadastrarItem } = itensSlice.actions;
 
 export default itensSlice.reducer;
