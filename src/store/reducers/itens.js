@@ -8,10 +8,10 @@ const itensSlice = createSlice({
   initialState: estadoInicial,
   reducers: {
     mudarFavorito: (state, {payload}) => {
-      state = state.map(item => {
+      state.map(item => {
         if (item.id === payload) item.favorito = !item.favorito;
         return item;
-      })
+      });
     },
     cadastrarItem: (state, {payload}) => {
       state.push({

@@ -4,22 +4,27 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "components/Button";
 import { useForm } from "react-hook-form";
 import { cadastrarItem } from "store/reducers/itens";
+import { useParams } from "react-router-dom";
 
 export default function Anuncie() {
   const dispatch = useDispatch();
+
+  const { nomeCategoria = '' } = useParams();
+
   const categorias = useSelector((state) =>
     state.categorias.map(({ nome, id }) => ({ nome, id }))
   );
+
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      categoria: '',
-    }
+      categoria: nomeCategoria,
+    },
   });
 
   function cadastrar(data) {
     dispatch(cadastrarItem(data));
     reset();
-    window.alert('Produto cadastrado com sucesso!')
+    window.alert("Produto cadastrado com sucesso!");
   }
 
   return (
@@ -40,11 +45,11 @@ export default function Anuncie() {
           alt="Descrição do produto"
         />
         <input
-          {...register("imagem",)}
+          {...register("imagem")}
           placeholder="URL da imagem do produto"
           alt="URL da imagem do produto"
         />
-        <select {...register("categoria", { required: true })}>
+        <select {...register("categoria", { required: true })} disabled={nomeCategoria}>
           <option value="" disabled>
             Selecione a categoria
           </option>
