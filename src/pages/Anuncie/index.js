@@ -40,7 +40,7 @@ export default function Anuncie() {
           alt="Descrição do produto"
         />
         <input
-          {...register("imagem", { required: true })}
+          {...register("imagem",)}
           placeholder="URL da imagem do produto"
           alt="URL da imagem do produto"
         />
@@ -55,8 +55,9 @@ export default function Anuncie() {
           ))}
         </select>
         <input
-          {...register("preco", { required: true })}
+          {...register("preco", { required: true, valueAsNumber: true })}
           type="number"
+          step="0.01"
           placeholder="Preço do produto"
         />
         <Button type="submit">Cadastrar produto</Button>

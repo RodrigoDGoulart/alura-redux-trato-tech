@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { estadoInicial } from '../../constants/itensInitialState'
 import { v4 as uuid } from 'uuid'
+import { noImage } from "constants/noImage";
 
 const itensSlice = createSlice({
   name: "itens",
@@ -18,9 +19,9 @@ const itensSlice = createSlice({
         categoria: payload.categoria,
         descricao: payload.descricao,
         favorito: false,
-        foto: payload.imagem,
+        foto: payload.imagem || noImage,
         id: uuid(),
-        preco: Number(payload.preco)
+        preco: payload.preco
       })
     }
   }
