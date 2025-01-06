@@ -11,7 +11,7 @@ import {
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { mudarCarrinho, mudarQuantidade } from "store/reducers/carrinho";
-import { mudarFavorito } from "store/reducers/itens";
+import { mudarFavorito, mudarItem } from "store/reducers/itens";
 import { useState } from "react";
 import Input from "components/Input";
 
@@ -53,6 +53,7 @@ export default function Item(props) {
           className={styles["item-acao"]}
           onClick={() => {
             setModoEdicao(false);
+            dispatch(mudarItem({ id, item: { titulo: novoTitulo } }));
           }}
         />
       ) : (
