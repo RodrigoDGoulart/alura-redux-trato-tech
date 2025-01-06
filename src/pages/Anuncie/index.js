@@ -5,6 +5,7 @@ import Button from "components/Button";
 import { useForm } from "react-hook-form";
 import { cadastrarItem } from "store/reducers/itens";
 import { useParams } from "react-router-dom";
+import Input from "components/Input";
 
 export default function Anuncie() {
   const dispatch = useDispatch();
@@ -34,17 +35,17 @@ export default function Anuncie() {
         descricao="Anunce seu produto no melhor site do Brasil"
       />
       <form className={styles.formulario}>
-        <input
+        <Input
           {...register("nome", { required: true })}
           placeholder="Nome do produto"
           alt="Nome do produto"
         />
-        <input
+        <Input
           {...register("descricao", { required: true })}
           placeholder="Descricão do produto"
           alt="Descrição do produto"
         />
-        <input
+        <Input
           {...register("imagem")}
           placeholder="URL da imagem do produto"
           alt="URL da imagem do produto"
@@ -59,7 +60,7 @@ export default function Anuncie() {
             </option>
           ))}
         </select>
-        <input
+        <Input
           {...register("preco", { required: true, valueAsNumber: true })}
           type="number"
           step="0.01"

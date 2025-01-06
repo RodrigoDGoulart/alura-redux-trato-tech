@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { mudarCarrinho, mudarQuantidade } from "store/reducers/carrinho";
 import { mudarFavorito } from "store/reducers/itens";
 import { useState } from "react";
+import Input from "components/Input";
 
 const iconeProps = {
   size: 24,
@@ -78,7 +79,7 @@ export default function Item(props) {
       <div className={styles["item-descricao"]}>
         <div className={styles["item-titulo"]}>
           {modoEdicao ? (
-            <input
+            <Input
               value={novoTitulo}
               onChange={(e) => {
                 setNovoTitulo(e.target.value);
