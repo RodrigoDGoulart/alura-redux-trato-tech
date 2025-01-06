@@ -1,10 +1,18 @@
 import classNames from "classnames";
 import styles from "./Item.module.scss";
-import { AiOutlineHeart, AiFillHeart, AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiFillMinusCircle,
+  AiFillPlusCircle,
+  AiOutlineCheck,
+  AiFillEdit,
+} from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { mudarCarrinho, mudarQuantidade } from "store/reducers/carrinho";
 import { mudarFavorito } from "store/reducers/itens";
+import { useState } from "react";
 
 const iconeProps = {
   size: 24,
@@ -13,11 +21,15 @@ const iconeProps = {
 
 const iconeQuantidadeProps = {
   size: 32,
-  color: '#1875E8'
+  color: "#1875E8",
 };
 
 export default function Item(props) {
-  const { titulo, foto, preco, descricao, favorito, id, carrinho, quantidade } = props;
+  const { titulo, foto, preco, descricao, favorito, id, carrinho, quantidade } =
+    props;
+
+  const [modoEdicao, setModoEdicao] = useState(false);
+  const [novoTitulo, setNovoTitulo] = useState(titulo);
 
   const dispatch = useDispatch();
   const estaNoCarrinho = useSelector((state) =>
@@ -32,6 +44,28 @@ export default function Item(props) {
     dispatch(mudarCarrinho(id));
   }
 
+  const modoEdicaoComponent = (
+    <>
+      {modoEdicao ? (
+        <AiOutlineCheck
+          {...iconeProps}
+          className={styles["item-acao"]}
+          onClick={() => {
+            setModoEdicao(false);
+          }}
+        />
+      ) : (
+        <AiFillEdit
+          {...iconeProps}
+          className={styles["item-acao"]}
+          onClick={() => {
+            setModoEdicao(true);
+          }}
+        />
+      )}
+    </>
+  );
+
   return (
     <div
       className={classNames(styles.item, {
@@ -43,7 +77,16 @@ export default function Item(props) {
       </div>
       <div className={styles["item-descricao"]}>
         <div className={styles["item-titulo"]}>
-          <h2>{titulo}</h2>
+          {modoEdicao ? (
+            <input
+              value={novoTitulo}
+              onChange={(e) => {
+                setNovoTitulo(e.target.value);
+              }}
+            />
+          ) : (
+            <h2>{titulo}</h2>
+          )}
           <p>{descricao}</p>
         </div>
         <div className={styles["item-info"]}>
@@ -66,27 +109,31 @@ export default function Item(props) {
             {carrinho ? (
               <div className={styles.quantidade}>
                 Quantidade:
-                <AiFillMinusCircle 
+                <AiFillMinusCircle
                   {...iconeQuantidadeProps}
                   onClick={() => {
-                    if (quantidade >= 1) dispatch(mudarQuantidade({id, quantidade: -1}))
+                    if (quantidade >= 1)
+                      dispatch(mudarQuantidade({ id, quantidade: -1 }));
                   }}
                 />
-                <span>{String(quantidade || 0).padStart(2, '0')}</span>
-                <AiFillPlusCircle 
-                  {...iconeQuantidadeProps} 
+                <span>{String(quantidade || 0).padStart(2, "0")}</span>
+                <AiFillPlusCircle
+                  {...iconeQuantidadeProps}
                   onClick={() => {
-                    dispatch(mudarQuantidade({id, quantidade: 1}))
+                    dispatch(mudarQuantidade({ id, quantidade: 1 }));
                   }}
                 />
               </div>
             ) : (
-              <FaCartPlus
-                {...iconeProps}
-                color={estaNoCarrinho ? "#1875E8" : iconeProps.color}
-                className={styles["item-acao"]}
-                onClick={resolveCarrinho}
-              />
+              <>
+                <FaCartPlus
+                  {...iconeProps}
+                  color={estaNoCarrinho ? "#1875E8" : iconeProps.color}
+                  className={styles["item-acao"]}
+                  onClick={resolveCarrinho}
+                />
+                {modoEdicaoComponent}
+              </>
             )}
           </div>
         </div>
