@@ -43,7 +43,12 @@ const itensSlice = createSlice({
       Object.assign(state[index], payload.item);
     },
     deletarItem: (state, { payload }) => {
-      return state.filter(item => item.id !== payload)
+      // método 1
+      // return state.filter(item => item.id !== payload)
+
+      // método 2 (evitando return segundo documentação immer)
+      const index = state.findIndex(item => item.id === payload);
+      state.splice(index, 1);
     },
   },
 });
