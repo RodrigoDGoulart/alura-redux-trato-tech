@@ -43,7 +43,7 @@ const itensSlice = createSlice({
       Object.assign(state[index], payload.item);
     },
     deletarItem: (state, { payload }) => {
-      console.log(payload);
+      return state.filter(item => item.id !== payload)
     },
   },
 });
