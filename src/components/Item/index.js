@@ -13,7 +13,7 @@ import { FaCartPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { mudarCarrinho, mudarQuantidade } from "store/reducers/carrinho";
 import { deletarItem, mudarFavorito, mudarItem } from "store/reducers/itens";
-import { useState } from "react";
+import { memo, useState } from "react";
 import Input from "components/Input";
 
 const iconeProps = {
@@ -26,7 +26,7 @@ const iconeQuantidadeProps = {
   color: "#1875E8",
 };
 
-export default function Item(props) {
+function Item(props) {
   const { titulo, foto, preco, descricao, favorito, id, carrinho, quantidade } =
     props;
 
@@ -151,3 +151,5 @@ export default function Item(props) {
     </div>
   );
 }
+
+export default memo(Item);
