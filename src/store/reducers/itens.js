@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { estadoInicial } from "../../constants/itensInitialState";
 import { v4 as uuid } from "uuid";
 import { noImage } from "constants/noImage";
+
+const estadoInicial = [];
 
 // padrões de mudança de objetos e arrays: https://immerjs.github.io/immer/update-patterns/
 const itensSlice = createSlice({
@@ -47,13 +48,21 @@ const itensSlice = createSlice({
       // return state.filter(item => item.id !== payload)
 
       // método 2 (evitando return segundo documentação immer)
-      const index = state.findIndex(item => item.id === payload);
+      const index = state.findIndex((item) => item.id === payload);
       state.splice(index, 1);
+    },
+    adicionarItens: (state, { payload }) => {
+      state.push(...payload);
     },
   },
 });
 
-export const { mudarFavorito, cadastrarItem, mudarItem, deletarItem } =
-  itensSlice.actions;
+export const {
+  mudarFavorito,
+  cadastrarItem,
+  mudarItem,
+  deletarItem,
+  adicionarItens,
+} = itensSlice.actions;
 
 export default itensSlice.reducer;
