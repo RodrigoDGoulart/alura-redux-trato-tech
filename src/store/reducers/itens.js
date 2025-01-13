@@ -1,6 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
 import { noImage } from "constants/noImage";
+import itensService from "services/itens";
+
+export const buscarItens = createAsyncThunk("itens/buscar", itensService.buscar);
 
 const estadoInicial = [];
 
@@ -51,9 +54,11 @@ const itensSlice = createSlice({
       const index = state.findIndex((item) => item.id === payload);
       state.splice(index, 1);
     },
-    adicionarItens: (state, { payload }) => {
-      state.push(...payload);
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(buscarItens.fulfilled, (state, { payload }) => {
+      return payload;
+    });
   },
 });
 
@@ -62,7 +67,6 @@ export const {
   cadastrarItem,
   mudarItem,
   deletarItem,
-  adicionarItens,
 } = itensSlice.actions;
 
 export default itensSlice.reducer;
