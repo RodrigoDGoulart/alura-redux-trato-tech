@@ -3,7 +3,10 @@ import { v4 as uuid } from "uuid";
 import { noImage } from "constants/noImage";
 import itensService from "services/itens";
 
-export const buscarItens = createAsyncThunk("itens/buscar", itensService.buscar);
+export const buscarItens = createAsyncThunk(
+  "itens/buscar",
+  itensService.buscar
+);
 
 const estadoInicial = [];
 
@@ -56,17 +59,16 @@ const itensSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(buscarItens.fulfilled, (state, { payload }) => {
-      return payload;
-    });
+    builder
+      .addCase(buscarItens.fulfilled, (state, { payload }) => {
+        return payload;
+      })
+      .addCase(buscarItens.pending, () => console.log("loading"))
+      .addCase(buscarItens.rejected, () => console.log("rejected"));
   },
 });
 
-export const {
-  mudarFavorito,
-  cadastrarItem,
-  mudarItem,
-  deletarItem,
-} = itensSlice.actions;
+export const { mudarFavorito, cadastrarItem, mudarItem, deletarItem } =
+  itensSlice.actions;
 
 export default itensSlice.reducer;
