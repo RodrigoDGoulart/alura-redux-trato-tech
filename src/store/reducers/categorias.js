@@ -14,7 +14,7 @@ export const buscarCategorias = createAsyncThunk(
 const defaultToast = {
   duration: 2000,
   isClosable: true,
-}
+};
 
 const categoriasSlice = createSlice({
   name: "categorias",
@@ -22,6 +22,7 @@ const categoriasSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(buscarCategorias.fulfilled, (state, { payload }) => {
+        toast.close("loadingToast");
         toast({
           ...defaultToast,
           title: "Sucesso",
@@ -33,18 +34,20 @@ const categoriasSlice = createSlice({
       .addCase(buscarCategorias.pending, () => {
         toast({
           ...defaultToast,
-          title: 'Carregando',
-          description: 'Carregando categorias...',
-          status: 'loading',
-        })
+          id: "loadingToast",
+          title: "Carregando",
+          description: "Carregando categorias...",
+          status: "loading",
+        });
       })
       .addCase(buscarCategorias.rejected, () => {
+        toast.close("loadingToast");
         toast({
           ...defaultToast,
-          title: 'Erro!',
-          description: 'Erro na busca de categoria',
-          status: 'error',
-        })
+          title: "Erro!",
+          description: "Erro na busca de categoria",
+          status: "error",
+        });
       });
   },
 });
