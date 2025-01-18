@@ -5,6 +5,10 @@ const estadoInicial = [];
 
 export const carregarCategorias = createAction("categorias/carregarCategorias");
 
+export const carregarUmaCategoria = createAction(
+  "categorias/carregarUmaCategoria"
+);
+
 export const buscarCategorias = createAsyncThunk(
   "categorias/buscar",
   categoriasService.buscar
