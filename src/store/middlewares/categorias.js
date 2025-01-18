@@ -1,6 +1,7 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
 import {
   addAllCategories,
+  adicionarUmaCategoria,
   carregarCategorias,
   carregarUmaCategoria,
 } from "store/reducers/categorias";
@@ -21,8 +22,8 @@ listener.startListening({
       textos: {
         sucesso: "Categorias carregadas com sucesso",
         loading: "Carregando categorias...",
-        erro: "Erro na busca de categoria"
-      }
+        erro: "Erro na busca de categoria",
+      },
     });
     unsubscribe();
   },
@@ -30,5 +31,20 @@ listener.startListening({
 
 listener.startListening({
   actionCreator: carregarUmaCategoria,
-  effect: () => {},
+  effect: async (action, listeningAPI) => {
+    const { fork, dispatch, unsubscribe } = listeningAPI;
+    const nomeCategoria = action.payload;
+    await criarTarefa({
+      fork,
+      dispatch,
+      action: adicionarUmaCategoria,
+      busca: () => categoriasService.buscarUmaCategoria(nomeCategoria),
+      textos: {
+        sucesso: `Categoria ${nomeCategoria} carregada com sucesso`,
+        loading: "Carregando categoria...",
+        erro: "Erro na busca de categoria",
+      },
+    });
+    unsubscribe();
+  },
 });
