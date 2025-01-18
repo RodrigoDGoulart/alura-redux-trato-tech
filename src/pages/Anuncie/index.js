@@ -6,11 +6,16 @@ import { useForm } from "react-hook-form";
 import { cadastrarItem } from "store/reducers/itens";
 import { useParams } from "react-router-dom";
 import Input from "components/Input";
+import { useEffect } from "react";
+import {
+  carregarCategorias,
+  carregarUmaCategoria,
+} from "store/reducers/categorias";
 
 export default function Anuncie() {
   const dispatch = useDispatch();
 
-  const { nomeCategoria = '' } = useParams();
+  const { nomeCategoria = "" } = useParams();
 
   const categorias = useSelector((state) =>
     state.categorias.map(({ nome, id }) => ({ nome, id }))
@@ -27,6 +32,12 @@ export default function Anuncie() {
     reset();
     window.alert("Produto cadastrado com sucesso!");
   }
+
+  useEffect(() => {
+    dispatch(
+      nomeCategoria ? carregarUmaCategoria(nomeCategoria) : carregarCategorias()
+    );
+  }, [dispatch, nomeCategoria]);
 
   return (
     <div className={styles.container} onSubmit={handleSubmit(cadastrar)}>
@@ -50,7 +61,10 @@ export default function Anuncie() {
           placeholder="URL da imagem do produto"
           alt="URL da imagem do produto"
         />
-        <select {...register("categoria", { required: true })} disabled={nomeCategoria}>
+        <select
+          {...register("categoria", { required: true })}
+          disabled={nomeCategoria}
+        >
           <option value="" disabled>
             Selecione a categoria
           </option>
