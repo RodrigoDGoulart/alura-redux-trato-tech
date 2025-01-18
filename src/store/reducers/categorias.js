@@ -1,11 +1,7 @@
-import { createStandaloneToast } from "@chakra-ui/toast";
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { defaultToast } from "constants/defaultToast";
 import categoriasService from "services/categorias";
 
 const estadoInicial = [];
-
-const { toast } = createStandaloneToast();
 
 export const carregarCategorias = createAction("categorias/carregarCategorias");
 

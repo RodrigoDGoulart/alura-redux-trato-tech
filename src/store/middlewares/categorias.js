@@ -30,26 +30,24 @@ listener.startListening({
 
     const resposta = await tarefa.result;
 
-    switch (resposta.status) {
-      case "ok":
-        dispatch(addAllCategories(resposta.value));
-        toast.close("loadingToast");
-        toast({
-          ...defaultToast,
-          title: "Sucesso",
-          description: "Categorias carregadas com sucesso",
-          status: "success",
-        });
-        unsubscribe();
-        break;
-      default:
-        toast.close("loadingToast");
-        toast({
-          ...defaultToast,
-          title: "Erro!",
-          description: "Erro na busca de categoria",
-          status: "error",
-        });
+    if (resposta.status === "ok") {
+      dispatch(addAllCategories(resposta.value));
+      toast.close("loadingToast");
+      toast({
+        ...defaultToast,
+        title: "Sucesso",
+        description: "Categorias carregadas com sucesso",
+        status: "success",
+      });
+      unsubscribe();
+    } else {
+      toast.close("loadingToast");
+      toast({
+        ...defaultToast,
+        title: "Erro!",
+        description: "Erro na busca de categoria",
+        status: "error",
+      });
     }
   },
 });
