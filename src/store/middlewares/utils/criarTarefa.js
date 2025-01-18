@@ -8,7 +8,7 @@ export default async function criarTarefa({
   fork,
   action,
   busca,
-  textos
+  textos,
 }) {
   toast({
     ...defaultToast,
@@ -42,4 +42,6 @@ export default async function criarTarefa({
       status: "error",
     });
   }
+
+  return resposta;
 }

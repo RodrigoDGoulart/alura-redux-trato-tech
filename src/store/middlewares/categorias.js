@@ -32,9 +32,16 @@ listener.startListening({
 listener.startListening({
   actionCreator: carregarUmaCategoria,
   effect: async (action, listeningAPI) => {
-    const { fork, dispatch, unsubscribe } = listeningAPI;
+    const { fork, dispatch, unsubscribe, getState } = listeningAPI;
+    const { categorias } = getState();
+    const categoriaCarregada = categorias.some(
+      (categoria) => categoria.id === nomeCategoria
+    );
+    if (categoriaCarregada) return;
+    if (categorias.length === 5) return unsubscribe();
+
     const nomeCategoria = action.payload;
-    await criarTarefa({
+    const resp = await criarTarefa({
       fork,
       dispatch,
       action: adicionarUmaCategoria,
@@ -45,6 +52,8 @@ listener.startListening({
         erro: "Erro na busca de categoria",
       },
     });
-    unsubscribe();
+    if (resp.status === "ok") {
+      unsubscribe();
+    }
   },
 });
